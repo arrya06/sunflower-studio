@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunflower Studio — Film · VFX · Web · Digital</title>
+  <meta name="description"
+    content="Sunflower Studio is a full-stack creative and tech partner: website design, video editing, ad shoots and VFX — in association with 11 House Studio, Delhi.">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --black: #100c08;
+      --near-black: #17120c;
+      --seed: #2b1c10;
+      --seed-deep: #1c1108;
+      --gold-1: #f6b94a;
+      --gold-2: #e79a1f;
+      --gold-3: #c97a1a;
+      --cream: #f7f0e2;
+      --stone: #b6a891;
+      --stone-dim: #8b7c66;
+      --line: rgba(230, 199, 138, 0.18);
+      --max: 1180px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--gold-2);
+      color: var(--black);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--stone);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow .dot {
+      color: var(--gold-2);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--cream);
+    }
+
+    .italic {
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    p {
+      color: var(--stone);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .seed-bg {
+      background-image: radial-gradient(circle, rgba(246, 185, 74, 0.35) 1px, transparent 1.4px);
+      background-size: 22px 22px;
+    }
+
+    /* ---------- LOADER ---------- */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: radial-gradient(ellipse at center, #1a130b 0%, #0b0805 78%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #loader video {
+      width: min(46vw, 360px);
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      filter: drop-shadow(0 0 40px rgba(246, 185, 74, 0.18));
+    }
+
+    .loader-word {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(22px, 3.4vw, 34px);
+      color: var(--cream);
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadein 1s ease forwards 0.4s;
+    }
+
+    .loader-bar {
+      width: 160px;
+      height: 1px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      left: -40%;
+      top: 0;
+      bottom: 0;
+      width: 40%;
+      background: linear-gradient(90deg, transparent, var(--gold-1), transparent);
+      animation: sweep 1.6s ease-in-out infinite;
+    }
+
+    @keyframes sweep {
+      0% {
+        left: -40%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    @keyframes fadein {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      background: rgba(16, 12, 8, 0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    header.scrolled {
+      border-color: var(--line);
+      background: rgba(16, 12, 8, 0.92);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .brand .word {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+    }
+
+    .brand .word em {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--cream);
+    }
+
+    .brand .word b {
+      font-weight: 600;
+      display: block;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      color: var(--stone);
+      margin-top: -2px;
+    }
+
+    nav.links {
+      display: flex;
+      gap: 34px;
+    }
+
+    nav.links a {
+      font-size: 13.5px;
+      letter-spacing: 0.04em;
+      color: var(--stone);
+      transition: color 0.25s ease;
+      position: relative;
+    }
+
+    nav.links a:hover {
+      color: var(--gold-1);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      font-size: 13.5px;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-1), var(--gold-3));
+      color: #1a1108;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 8px 24px rgba(233, 161, 30, 0.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(233, 161, 30, 0.3);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--gold-2);
+      color: var(--gold-1);
+      transform: translateY(-2px);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--cream);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-top: 90px;
+      background:
+        radial-gradient(ellipse 900px 500px at 82% 18%, rgba(246, 185, 74, 0.10), transparent 60%),
+        var(--black);
+    }
+
+    .hero .wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 40px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 5.4vw, 72px);
+      margin: 22px 0 24px;
+    }
+
+    .hero h1 .line2 {
+      display: block;
+    }
+
+    .hero p.lead {
+      font-size: 18px;
+      max-width: 480px;
+      margin-bottom: 34px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-visual .ring {
+      position: absolute;
+      width: 108%;
+      height: 108%;
+      border-radius: 50%;
+      border: 1px dashed var(--line);
+      animation: spin 60s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero-video-frame {
+      position: relative;
+      width: min(100%, 460px);
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 0 0 14px rgba(246, 185, 74, 0.03), 0 40px 90px rgba(0, 0, 0, 0.55);
+      background: var(--seed-deep);
+    }
+
+    .hero-video-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: -30%;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(246, 185, 74, 0.16), transparent 65%);
+      filter: blur(10px);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--stone-dim);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .scroll-cue .stem {
+      width: 1px;
+      height: 34px;
+      background: linear-gradient(var(--gold-2), transparent);
+      animation: grow 2.2s ease-in-out infinite;
+    }
+
+    @keyframes grow {
+
+      0%,
+      100% {
+        transform: scaleY(0.6);
+        opacity: 0.4;
+      }
+
+      50% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    /* ---------- SECTION SHELL ---------- */
+    section {
+      position: relative;
+      padding: 130px 0;
+    }
+
+    .section-head {
+      max-width: 640px;
+      margin-bottom: 64px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(30px, 3.6vw, 46px);
+      margin-top: 16px;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ---------- SERVICES / FLOWER GRID ---------- */
+    .flower-field {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .petal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      position: relative;
+    }
+
+    .petal {
+      background: linear-gradient(180deg, rgba(246, 185, 74, 0.06), rgba(246, 185, 74, 0.015));
+      border: 1px solid var(--line);
+      border-radius: 120px 120px 18px 18px;
+      padding: 54px 30px 34px;
+      text-align: center;
+      transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .petal:hover {
+      transform: translateY(-8px);
+      border-color: rgba(246, 185, 74, 0.5);
+      background: linear-gradient(180deg, rgba(246, 185, 74, 0.12), rgba(246, 185, 74, 0.02));
+    }
+
+    .petal .num {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold-1);
+      font-size: 15px;
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .petal h3 {
+      font-size: 21px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .petal p {
+      font-size: 14.5px;
+    }
+
+    .seed-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 196px;
+      height: 196px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #3a2412, var(--seed-deep) 70%);
+      border: 1px solid rgba(246, 185, 74, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 5;
+      box-shadow: 0 0 0 8px rgba(16, 12, 8, 1), 0 0 60px rgba(246, 185, 74, 0.15);
+    }
+
+    .seed-core .tag {
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      color: var(--stone);
+      text-transform: uppercase;
+    }
+
+    .seed-core .name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--gold-1);
+      margin: 6px 0 2px;
+      line-height: 1.15;
+    }
+
+    .seed-core .loc {
+      font-size: 10px;
+      color: var(--stone-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ---------- PARTNER ---------- */
+    .partner {
+      background: var(--near-black);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .partner .wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .partner-badge {
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      max-width: 320px;
+    }
+
+    .partner-badge::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      border: 1px dashed var(--line);
+    }
+
+    .partner-badge .inner {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .partner-badge .inner .small {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--stone-dim);
+      text-transform: uppercase;
+    }
+
+    .partner-badge .inner .big {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 30px;
+      color: var(--gold-1);
+      margin: 10px 0 4px;
+    }
+
+    .partner-badge .inner .city {
+      font-size: 12px;
+      color: var(--stone);
+      letter-spacing: 0.08em;
+    }
+
+    .partner-text h2 {
+      margin: 16px 0 20px;
+    }
+
+    .partner-text p {
+      font-size: 16.5px;
+      max-width: 520px;
+      margin-bottom: 16px;
+    }
+
+    .partner-points {
+      list-style: none;
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .partner-points li {
+      display: flex;
+      gap: 12px;
+      font-size: 14.5px;
+      color: var(--stone);
+    }
+
+    .partner-points li::before {
+      content: '✦';
+      color: var(--gold-2);
+      flex-shrink: 0;
+    }
+
+    /* ---------- SHOWREEL ---------- */
+    .showreel-frame {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      aspect-ratio: 16/8;
+      background: var(--seed-deep);
+      cursor: pointer;
+    }
+
+    .showreel-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+
+    .showreel-frame .play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(16, 12, 8, 0.15), rgba(16, 12, 8, 0.55));
+    }
+
+    .play-btn {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: rgba(16, 12, 8, 0.55);
+      border: 1px solid rgba(246, 185, 74, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .showreel-frame:hover .play-btn {
+      transform: scale(1.08);
+      background: rgba(233, 161, 30, 0.25);
+    }
+
+    .play-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--gold-1);
+      margin-left: 3px;
+    }
+
+    .showreel-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .showreel-caption span {
+      font-size: 12.5px;
+      letter-spacing: 0.1em;
+      color: var(--stone-dim);
+      text-transform: uppercase;
+    }
+
+    /* ---------- PROCESS ---------- */
+    .process-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 20px;
+    }
+
+    .process-step {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+
+    .process-step .stage {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--gold-1);
+    }
+
+    .process-step h3 {
+      font-size: 20px;
+      margin: 10px 0 10px;
+      font-weight: 600;
+    }
+
+    .process-step p {
+      font-size: 14.5px;
+    }
+
+    /* ---------- CTA ---------- */
+    .cta {
+      text-align: center;
+      background:
+        radial-gradient(ellipse 700px 400px at 50% 0%, rgba(246, 185, 74, 0.10), transparent 65%),
+        var(--black);
+    }
+
+    .cta h2 {
+      font-size: clamp(32px, 5vw, 58px);
+      max-width: 760px;
+      margin: 18px auto 24px;
+    }
+
+    .cta p {
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 56px 0 30px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 320px;
+    }
+
+    .footer-brand img {
+      width: 44px;
+      height: 44px;
+    }
+
+    .footer-brand .word {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+    }
+
+    .footer-cols {
+      display: flex;
+      gap: 70px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col h4 {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--stone-dim);
+      margin-bottom: 18px;
+    }
+
+    .footer-col a,
+    .footer-col span {
+      display: block;
+      font-size: 14px;
+      color: var(--stone);
+      margin-bottom: 12px;
+    }
+
+    .footer-col a:hover {
+      color: var(--gold-1);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      font-size: 12.5px;
+      color: var(--stone-dim);
+    }
+
+    /* ---------- MOBILE NAV ---------- */
+    .mobile-panel {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 12, 8, 0.98);
+      z-index: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-panel.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-panel a {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 26px;
+      color: var(--cream);
+    }
+
+    .mobile-panel .close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: var(--cream);
+      cursor: pointer;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .hero .wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        order: -1;
+        margin-bottom: 10px;
+      }
+
+      .hero-video-frame {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      nav.links {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .partner .wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .partner-badge {
+        margin: 0 auto;
+      }
+
+      .process-row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .petal-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .seed-core {
+        position: static;
+        transform: none;
+        margin: 0 auto 30px;
+      }
+
+      .desktop-only {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOADER -->
+  <div id="loader" aria-hidden="true">
+    <video id="loaderVideo" src="assets/sunflower-bloom.mp4" autoplay muted playsinline></video>
+    <div class="loader-word">Sunflower Studio</div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header id="siteHeader">
+    <div class="nav">
+      <a class="brand" href="#top">
+        <img src="logo.png" alt="Sunflower Studio">
+        <span class="word"><em>Sunflower</em><b>STUDIO</b></span>
+      </a>
+      <nav class="links">
+        <a href="#services">Services</a>
+        <a href="#reel">Showreel</a>
+        <a href="#partner">Partner</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="btn desktop-only">Start a project</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <!-- MOBILE PANEL -->
+  <div class="mobile-panel" id="mobilePanel">
+    <button class="close" id="menuClose" aria-label="Close menu">✕</button>
+    <a href="#services">Services</a>
+    <a href="#reel">Showreel</a>
+    <a href="#partner">Partner</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <div id="top"></div>
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="eyebrow">FILM <span class="dot">·</span> VFX <span class="dot">·</span> WEB <span
+            class="dot">·</span> DIGITAL</div>
+        <h1>Every idea<span class="italic line2">deserves to bloom.</span></h1>
+        <p class="lead">Sunflower Studio is a full-stack creative &amp; tech partner — website design, video editing, ad
+          shoots, and VFX, built by a team that chases the light on every frame.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn">Start your project</a>
+          <a href="#reel" class="btn ghost">Watch the showreel</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-glow"></div>
+        <div class="ring"></div>
+        <div class="hero-video-frame">
+          <video src="logo.png" poster="logo.png" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>Scroll</span>
+      <div class="stem"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="seed-bg">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What we do</div>
+        <h2>Four petals, <span class="italic">one flower.</span></h2>
+        <p style="margin-top:16px;">Website design, video editing, ad shoots and VFX — handled end to end by one studio,
+          so nothing gets lost between briefs.</p>
+      </div>
+
+      <div class="flower-field">
+        <div class="seed-core">
+          <span class="tag">VFX Partner</span>
+          <span class="name">11 House Studio</span>
+          <span class="loc">Delhi</span>
+        </div>
+        <div class="petal-grid">
+          <div class="petal">
+            <span class="num">Website Design</span>
+            <h3>Web Design &amp; Build</h3>
+            <p>Fast, story-led websites — from portfolio sites to full e-commerce — designed to convert visitors into
+              clients.</p>
+          </div>
+          <div class="petal">
+            <span class="num">Post-Production</span>
+            <h3>Video Editing</h3>
+            <p>Raw footage cut into films: pacing, colour grading, sound design and polish for every platform.</p>
+          </div>
+          <div class="petal">
+            <span class="num">Production</span>
+            <h3>Ad Shoots</h3>
+            <p>Full-service production for brand films, product shoots and social campaigns, from concept to final cut.
+            </p>
+          </div>
+          <div class="petal">
+            <span class="num">Our Strongest Suit</span>
+            <h3>VFX &amp; Compositing</h3>
+            <p>Our VFX team handles compositing, motion graphics and effects work built to hold up on the big screen.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="divider"></div>
+  </div>
+
+  <!-- SHOWREEL -->
+  <section id="reel">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Showreel</div>
+        <h2>Watch something <span class="italic">bloom.</span></h2>
+      </div>
+      <div class="showreel-frame" id="showreelFrame">
+        <video id="showreelVideo" src="assets/sunflower-bloom.mp4" poster="assets/poster.jpg" muted loop
+          playsinline></video>
+        <div class="play" id="playOverlay">
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="showreel-caption">
+        <span>Studio Reel — VFX &amp; Motion</span>
+        <span>Sunflower Studio × 11 House Studio</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNER -->
+  <section id="partner" class="partner">
+    <div class="wrap">
+      <div class="partner-badge">
+        <div class="inner">
+          <div class="small">In association with</div>
+          <div class="big">11 House Studio</div>
+          <div class="city">Delhi, India</div>
+        </div>
+      </div>
+      <div class="partner-text">
+        <div class="eyebrow">Our VFX partner</div>
+        <h2>Backed by a heavyweight <span class="italic">VFX house.</span></h2>
+        <p>For projects that need serious visual effects firepower, we work hand in hand with 11 House Studio — a
+          Delhi-based VFX studio. It's how a small studio consistently delivers big-studio compositing, motion graphics
+          and effects work.</p>
+        <ul class="partner-points">
+          <li>Feature-grade compositing and effects on tight deadlines</li>
+          <li>A dedicated VFX pipeline, not a one-person freelance setup</li>
+          <li>Local production, backed by a specialist Delhi VFX team</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">How we work</div>
+        <h2>Plant, grow, <span class="italic">bloom.</span></h2>
+      </div>
+      <div class="process-row">
+        <div class="process-step">
+          <span class="stage">Plant (IDEA)</span>
+          <h3>Brief &amp; discovery</h3>
+          <p>We start with your goals, audience and references, then scope the site, shoot or edit around them.</p>
+        </div>
+        <div class="process-step">
+          <span class="stage">Grow (CREATION)</span>
+          <h3>Production</h3>
+          <p>Design, shoot, edit and VFX work happen in parallel — with 11 House Studio brought in wherever VFX gets
+            heavy.</p>
+        </div>
+        <div class="process-step">
+          <span class="stage">Bloom (DEPLOY)</span>
+          <h3>Delivery &amp; launch</h3>
+          <p>Final polish, review rounds, and a clean handoff — your site live, your film graded and ready to publish.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <div class="eyebrow" style="justify-content:center;">Get in touch</div>
+      <h2>Let's grow something <span class="italic">bright.</span></h2>
+      <p>Tell us about your website, shoot or edit — we'll get back with next steps and a straight timeline.</p>
+      <div class="cta-actions">
+        <a href="sunflower-studio-contact.html" class="btn">Email the studio</a>
+        <a href="#services" class="btn ghost">See our services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="logo.png" alt="Sunflower Studio">
+          <span class="word"><em>Sunflower</em> Studio</span>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Studio</h4>
+            <a href="#services">Services</a>
+            <a href="#reel">Showreel</a>
+            <a href="#partner">VFX Partner</a>
+            <a href="#process">Process</a>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <span>Web Design</span>
+            <span>Video Editing</span>
+            <span>Ad Shoots</span>
+            <span>VFX &amp; Compositing</span>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="mailto:sunflowerstudio2402@gmail.com">sunflowerstudio2402@gmail.com</a>
+            <span>In association with 11 House Studio, Delhi</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Sunflower Studio. All rights reserved.</span>
+        <span>Film · VFX · Web · Digital</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Loader
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      const vid = document.getElementById('loaderVideo');
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        loader.classList.add('hide');
+        document.body.style.overflow = '';
+      };
+      document.body.style.overflow = 'hidden';
+      if (vid) {
+        vid.addEventListener('ended', finish);
+      }
+      // Safety net so the loader never blocks the site
+      setTimeout(finish, 4200);
+    });
+
+    // Header scroll state
+    const header = document.getElementById('siteHeader');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile nav
+    const menuToggle = document.getElementById('menuToggle');
+    const menuClose = document.getElementById('menuClose');
+    const mobilePanel = document.getElementById('mobilePanel');
+    menuToggle.addEventListener('click', () => mobilePanel.classList.add('open'));
+    menuClose.addEventListener('click', () => mobilePanel.classList.remove('open'));
+    mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobilePanel.classList.remove('open')));
+
+    // Showreel play/pause
+    const showreelVideo = document.getElementById('showreelVideo');
+    const playOverlay = document.getElementById('playOverlay');
+    const showreelFrame = document.getElementById('showreelFrame');
+    showreelFrame.addEventListener('click', () => {
+      if (showreelVideo.paused) {
+        showreelVideo.play();
+        playOverlay.style.opacity = '0';
+      } else {
+        showreelVideo.pause();
+        playOverlay.style.opacity = '1';
+      }
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
