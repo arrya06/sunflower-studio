@@ -1,2 +1,2 @@
 # sunflower-studio
-web 
+logo and other  files missing 
